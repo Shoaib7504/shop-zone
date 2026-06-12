@@ -1,26 +1,232 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+
+@custom-variant dark (&:is(.dark *));
 
 @theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-glow: var(--primary-glow);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+:root {
+  --radius: 0.75rem;
+  /* Neutral whites */
+  --background: oklch(0.995 0.002 250);
+  --foreground: oklch(0.18 0.04 265);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.18 0.04 265);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.18 0.04 265);
+  /* Deep slate as "primary" surface */
+  --primary: oklch(0.22 0.04 265);
+  --primary-foreground: oklch(0.985 0.003 250);
+  --primary-glow: oklch(0.35 0.05 265);
+  --secondary: oklch(0.965 0.008 250);
+  --secondary-foreground: oklch(0.22 0.04 265);
+  --muted: oklch(0.965 0.008 250);
+  --muted-foreground: oklch(0.5 0.03 260);
+  /* Vivid indigo accent */
+  --accent: oklch(0.58 0.22 275);
+  --accent-foreground: oklch(0.99 0.005 250);
+  --destructive: oklch(0.58 0.22 27);
+  --destructive-foreground: oklch(0.99 0.005 250);
+  --border: oklch(0.92 0.012 255);
+  --input: oklch(0.92 0.012 255);
+  --ring: oklch(0.58 0.22 275);
+  --sidebar: oklch(0.985 0.003 250);
+  --sidebar-foreground: oklch(0.18 0.04 265);
+  --sidebar-primary: oklch(0.22 0.04 265);
+  --sidebar-primary-foreground: oklch(0.985 0.003 250);
+  --sidebar-accent: oklch(0.965 0.008 250);
+  --sidebar-accent-foreground: oklch(0.22 0.04 265);
+  --sidebar-border: oklch(0.92 0.012 255);
+  --sidebar-ring: oklch(0.58 0.22 275);
+}
+
+.dark {
+  --background: oklch(0.14 0.03 265);
+  --foreground: oklch(0.985 0.003 250);
+  --card: oklch(0.2 0.03 265);
+  --card-foreground: oklch(0.985 0.003 250);
+  --popover: oklch(0.2 0.03 265);
+  --popover-foreground: oklch(0.985 0.003 250);
+  --primary: oklch(0.985 0.003 250);
+  --primary-foreground: oklch(0.22 0.04 265);
+  --primary-glow: oklch(0.85 0.02 260);
+  --secondary: oklch(0.27 0.04 260);
+  --secondary-foreground: oklch(0.985 0.003 250);
+  --muted: oklch(0.27 0.04 260);
+  --muted-foreground: oklch(0.7 0.04 257);
+  --accent: oklch(0.68 0.2 275);
+  --accent-foreground: oklch(0.14 0.03 265);
+  --destructive: oklch(0.7 0.19 22);
+  --destructive-foreground: oklch(0.985 0.003 250);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.68 0.2 275);
+  --sidebar: oklch(0.2 0.03 265);
+  --sidebar-foreground: oklch(0.985 0.003 250);
+  --sidebar-primary: oklch(0.68 0.2 275);
+  --sidebar-primary-foreground: oklch(0.985 0.003 250);
+  --sidebar-accent: oklch(0.27 0.04 260);
+  --sidebar-accent-foreground: oklch(0.985 0.003 250);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.68 0.2 275);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+  h1, h2, h3, h4 {
+    letter-spacing: -0.02em;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@utility story-link {
+  position: relative;
+  display: inline-block;
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    height: 2px;
+    width: 100%;
+    background: var(--color-accent);
+    transform: scaleX(0);
+    transform-origin: bottom right;
+    transition: transform 0.3s ease;
+  }
+  &:hover::after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+  }
 }
+
+@utility hero-blob {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(80px);
+  opacity: 0.5;
+  pointer-events: none;
+}
+/* Mobile nav drawer */
+#mobile-menu-toggle {
+  display: none;
+}
+
+.mobile-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: oklch(0 0 0 / 40%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.mobile-drawer {
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  height: 100%;
+  width: 20rem;
+  max-width: 100%;
+  flex-direction: column;
+  gap: 0.5rem;
+  background-color: var(--color-background);
+  padding: 1.5rem;
+  box-shadow: -8px 0 32px oklch(0 0 0 / 12%);
+  transform: translateX(100%);
+  transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+#mobile-menu-toggle:checked ~ * .mobile-overlay,
+#mobile-menu-toggle:checked ~ .mobile-overlay {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+#mobile-menu-toggle:checked ~ * .mobile-drawer,
+#mobile-menu-toggle:checked ~ .mobile-drawer {
+  transform: translateX(0);
+}
+
+/* Navbar scroll shadow */
+@utility nav-scrolled {
+  border-bottom: 1px solid var(--color-border);
+  background-color: oklch(from var(--color-background) l c h / 80%);
+  backdrop-filter: blur(12px);
+}
+
+/* Hero animations (used by src/Components/Hero.jsx) */
+.underline-anim {
+  transform-origin: left center;
+  transform: scaleX(0);
+  transition: transform 600ms cubic-bezier(.2,.9,.2,1) 200ms;
+}
+.hero-intro :is(h1, p, .mt-8, .mt-10) {
+  opacity: 0;
+  transform: translateY(10px);
+  animation: hero-fade-in 600ms ease forwards;
+}
+.hero-intro h1 { animation-delay: 120ms; }
+.hero-intro p { animation-delay: 240ms; }
+.hero-intro .mt-8 { animation-delay: 360ms; }
+.hero-intro .mt-10 { animation-delay: 480ms; }
+
+@keyframes hero-fade-in {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes floatY {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+  100% { transform: translateY(0); }
+}
+
+.float-y { animation: floatY 6s ease-in-out infinite; }
+.float-small { animation: floatY 4s ease-in-out infinite; }
+.float-small-2 { animation: floatY 5s ease-in-out infinite; }
+
+/* Make underline expand on parent hover using the utility class */
+.relative.inline-block:hover .underline-anim { transform: scaleX(1); }
